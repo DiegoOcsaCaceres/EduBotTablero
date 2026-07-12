@@ -1,0 +1,208 @@
+==================================================================
+TABLERO DE CONTROL — EduBot en el mercado
+Especificación de datos: analítica descriptiva + predictiva
+==================================================================
+
+Este archivo explica, panel por panel, qué dato va en cada cuadro
+del boceto que dibujaron en la pizarra. La lógica es la misma que
+pidió el profesor en el chat:
+
+  - PERIODO (histórico/real):     Julio - Agosto - Setiembre
+  - SIMULACIÓN (predictivo/IA):   Octubre - Noviembre - Diciembre
+
+Los datos de Jul-Ago-Set se presentan como "ya ocurridos" (analítica
+descriptiva). Los datos de Oct-Nov-Dic se presentan como una
+proyección generada por IA a partir de la tendencia anterior
+(analítica predictiva), con un rango de confianza.
+
+Todos los números salen de la misma simulación que ya construimos
+en el "Modelo de Negocio Integrado" (adopción de colegios, ingresos,
+costos), reordenados en el calendario real Jul-Dic 2026 para que
+calcen con el boceto. Los datos de publicidad/marketing son nuevos,
+agregados para completar el KPI que pidió el profesor.
+
+------------------------------------------------------------------
+0. FILTROS DEL TABLERO (arriba del todo, como en la pizarra)
+------------------------------------------------------------------
+Tres selectores independientes que afectan a TODOS los paneles de
+abajo (los 3 KPI, los 5 cuadros descriptivos y los 3 predictivos):
+
+  FILTRO "AÑO"  -> valor único disponible: 2026
+  FILTRO "MES"  -> Julio / Agosto / Setiembre / Octubre / Noviembre /
+                   Diciembre (según si se está viendo modo histórico
+                   o modo simulación)
+  FILTRO "DÍA"  -> opcional, solo se activa si se elige un mes
+                   específico. Sirve para ver el detalle diario
+                   dentro de ese mes (ver dato de apoyo al final,
+                   punto 4).
+
+Comportamiento esperado: si el usuario no filtra nada, el tablero
+muestra el acumulado Jul-Set (real) a la izquierda y la proyección
+Oct-Dic (IA) a la derecha. Si filtra un mes puntual, los 5 cuadros
+descriptivos y los 3 predictivos se recalculan para ese mes.
+
+------------------------------------------------------------------
+1. LOS 3 KPI (cuadros pequeños arriba a la derecha)
+------------------------------------------------------------------
+Corte al cierre de Setiembre 2026 (fin del periodo histórico, antes
+de entrar a la simulación):
+
+  KPI 1 — Unidades de venta (licencias activas)
+    Valor: 2 colegios con licencia SaaS activa
+    Definición: colegios públicos que ya pagan la licencia mensual
+    de EduBot (S/ 208/mes, S/ 2,500/año), financiada por UGEL/MINEDU.
+
+  KPI 2 — Publicidad / difusión institucional
+    Valor: S/ 600 invertidos acumulados (Jul + Ago + Set)
+    Definición: gasto en difusión del servicio (circulares
+    escolares, material impreso para reuniones de padres, charla de
+    presentación a la UGEL). Detalle mensual en el punto 3.1.
+
+  KPI 3 — Ingreso acumulado
+    Valor: S/ 832 (2 colegios activos a distintos meses del trimestre)
+    Definición: suma de los pagos de licencia recibidos entre julio
+    y setiembre.
+
+------------------------------------------------------------------
+2. LOS 5 CUADROS DESCRIPTIVOS (históricos, Jul-Ago-Set)
+------------------------------------------------------------------
+Corresponden a los 5 recuadros dibujados en la fila de abajo de la
+pizarra, de izquierda a derecha.
+
+--- 2.1 Gráfico de barras verticales ---
+Título sugerido: "Colegios nuevos captados por mes"
+Eje X: mes (Jul, Ago, Set)
+Eje Y: N.° de colegios nuevos ese mes
+
+  Julio      -> 0 colegios nuevos (colegio piloto ya venía activo)
+  Agosto     -> 0 colegios nuevos
+  Setiembre  -> 1 colegio nuevo
+
+Nota: son barras desiguales a propósito (como en el boceto), porque
+la venta institucional no es lineal: recién en setiembre se cierra
+el segundo colegio tras la gestión con la UGEL.
+
+--- 2.2 Gráfico de líneas ---
+Título sugerido: "Evolución del ingreso mensual acumulado"
+Eje X: mes (Jul, Ago, Set)
+Eje Y: S/ acumulados
+
+  Julio      -> S/ 208
+  Agosto     -> S/ 416
+  Setiembre  -> S/ 832
+
+Nota: línea ascendente con quiebre más pronunciado en setiembre,
+coincidiendo con la llegada del segundo colegio.
+
+--- 2.3 Gráfico circular (pie / torta) ---
+Título sugerido: "Distribución de citas por motivo"
+Base: 188 citas acumuladas entre julio y setiembre
+
+  Académico / rendimiento escolar   -> 45%  (85 citas)
+  Conducta / disciplina             -> 25%  (47 citas)
+  Trámites administrativos          -> 20%  (38 citas)
+  Otros (salud, extracurricular)    -> 10%  (18 citas)
+
+Nota: estos motivos ya existen como campo en el flujo de HU001
+("motivo de la cita"), así que el dato es coherente con lo que el
+backend de EduBot ya registra.
+
+--- 2.4 Gráfico de dispersión (nube de puntos) ---
+Título sugerido: "Citas gestionadas vs. satisfacción del padre (CSAT)"
+Eje X: N.° de citas gestionadas por colegio (acumulado Jul-Set)
+Eje Y: CSAT promedio del colegio (escala 1-5)
+
+  IE San Martín de Porres (piloto) -> (141 citas ; CSAT 4.2)
+  Colegio 2 (incorporado en set.)  -> (47 citas ; CSAT 4.0)
+
+Nota: con solo 2 colegios el gráfico tiene pocos puntos; se aclara
+en el diseño que la nube "se poblará" a medida que se sumen más
+colegios en los meses siguientes (por eso calza con el boceto, que
+lo dibuja como una nube dispersa, no como 2 puntos sueltos).
+
+--- 2.5 Gráfico de barras horizontales ---
+Título sugerido: "Ranking de colegios por citas gestionadas"
+Eje Y: nombre del colegio
+Eje X: N.° de citas (acumulado Jul-Set)
+
+  IE San Martín de Porres -> 141 citas
+  Colegio 2               -> 47 citas
+
+------------------------------------------------------------------
+3. LOS 3 CUADROS PREDICTIVOS (simulación IA, Oct-Nov-Dic)
+------------------------------------------------------------------
+Van debajo de los 5 cuadros descriptivos, tal como se indicó en el
+chat. Cada uno es la proyección de UNA variable, generada a partir
+de la tendencia real de Jul-Set. Se recomienda dibujarlos también
+como líneas de tendencia (más fácil de leer una proyección con
+banda de incertidumbre que con barras).
+
+--- 3.1 Variable predictiva 1: Colegios activos (adopción) ---
+  Octubre    -> 3 colegios  (rango simulado: 2 a 4)
+  Noviembre  -> 5 colegios  (rango simulado: 4 a 6)
+  Diciembre  -> 6 colegios  (rango simulado: 5 a 8)
+
+  Justificación del modelo: se mantiene la tasa de conversión
+  observada en setiembre (1 colegio nuevo tras gestión UGEL) y se
+  proyecta un ritmo creciente por el efecto de referencia entre
+  colegios de la misma UGEL (la IA pondera el histórico + la
+  publicidad institucional planificada, ver 3.3).
+
+--- 3.2 Variable predictiva 2: Ingreso mensual proyectado ---
+  Octubre    -> S/ 624    (acumulado proyectado: S/ 1,456)
+  Noviembre  -> S/ 1,040  (acumulado proyectado: S/ 2,496)
+  Diciembre  -> S/ 1,248  (acumulado proyectado: S/ 3,744)
+
+  Justificación del modelo: ingreso = colegios activos proyectados
+  (3.1) × S/ 208/mes de licencia.
+
+--- 3.3 Variable predictiva 3: Publicidad / inversión en difusión ---
+  Octubre    -> S/ 300 (campaña de refuerzo con UGEL)
+  Noviembre  -> S/ 450 (expansión a colegios de distritos vecinos)
+  Diciembre  -> S/ 450 (mantenimiento de campaña)
+
+  Justificación del modelo: se proyecta un incremento gradual de
+  inversión en difusión para sostener la curva de adopción de 3.1;
+  es la variable "de entrada" que la IA usa junto con el histórico
+  para simular cuántos colegios nuevos se sumarán.
+
+Nota de diseño: si se prefiere que las 3 variables predictivas sean
+comparables 1 a 1 con los 5 cuadros descriptivos de arriba, se puede
+reemplazar 3.3 por "Volumen de citas proyectado" (Oct 141 / Nov 235
+/ Dic 282 citas), que es la misma curva de 3.1 multiplicada por 47
+citas/colegio/mes. Cualquiera de las dos variantes es válida; ambas
+usan datos ya sustentados en el resto del informe.
+
+------------------------------------------------------------------
+4. DATO DE APOYO PARA EL FILTRO "DÍA"
+------------------------------------------------------------------
+Si el filtro por día se activa dentro de un mes, no hay que inventar
+una tabla nueva: se puede derivar dividiendo el dato mensual entre
+los días hábiles del mes (aprox. 22 días hábiles/mes en el calendario
+escolar peruano).
+
+  Ejemplo Setiembre (94 citas / 22 días hábiles) -> ~4.3 citas/día
+  Ejemplo Julio (47 citas / 22 días hábiles)      -> ~2.1 citas/día
+
+Esto permite mostrar, por ejemplo, un mini-gráfico de barras diario
+dentro del mes seleccionado sin tener que simular 30 puntos de dato
+distintos a mano.
+
+------------------------------------------------------------------
+5. CÓMO SE CONECTA CON EL RESTO DEL INFORME
+------------------------------------------------------------------
+- Los 2 colegios y las 188 citas de Jul-Set son la misma curva de
+  adopción de la Tabla 16 (Modelo de Negocio Integrado), solo que
+  aquí se usan los meses 1 a 3 de esa tabla y se les puso nombre de
+  mes real.
+- Los meses predictivos Oct-Nov-Dic corresponden a los meses 4 a 6
+  de esa misma Tabla 16 — por eso los números de colegios activos
+  (3, 5, 6) coinciden exactamente.
+- El precio de licencia (S/ 208/mes), el CSAT (4.2) y el motivo de
+  cita ya estaban sustentados en HU001 y en el Lean Canvas, así que
+  no son datos sueltos: todo el tablero cuenta la misma historia que
+  el resto del proyecto.
+
+==================================================================
+FIN DEL DOCUMENTO
+==================================================================
