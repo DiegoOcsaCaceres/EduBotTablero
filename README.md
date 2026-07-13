@@ -1,7 +1,8 @@
 
   # Panel de control con gráficos
 
-  This is a code bundle for Panel de control con gráficos. The original project is available at https://www.figma.com/design/zwBHXdQe2RbZMVDaMvRBLM/Panel-de-control-con-gr%C3%A1ficos.
+  This is a code bundle for Panel de control con gráficos.
+  edu-bot-tablero-nine.vercel.app 
 
   ## Running the code
 
