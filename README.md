@@ -1,8 +1,8 @@
 
   # Panel de control con gráficos
 
-  This is a code bundle for Panel de control con gráficos.
-  edu-bot-tablero-nine.vercel.app 
+  This is a code bundle for Panel de control con gráficos:
+  edu-bot-tablero-nine.vercel.app  
 
   ## Running the code
 
